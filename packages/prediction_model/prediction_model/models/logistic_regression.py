@@ -3,6 +3,7 @@ from prediction_model import preprocessing as pp
 import pickle as pkl
 from sklearn import pipeline
 from sklearn import linear_model
+from sklearn import metrics 
 from prediction_model import config
 
 # Globals 
@@ -41,6 +42,19 @@ class LogisticRegressionClassifier():
         
         return self.pipe.predict(X)
     
+    def performance_summary(self, X, y_true):
+        """Get performance over dataset"""
+        
+        predicted = self.predict(X)
+
+        performance = {}
+        performance["accuracy"] = metrics.accuracy_score(y_true, predicted) 
+        performance["precision"] = metrics.precision_score(y_true, predicted) 
+        performance["roc_auc"] = metrics.roc_auc_score(y_true, predicted) 
+        performance["confusion_matrix"] = metrics.confusion_matrix(y_true, predicted) 
+
+        return performance
+
     @classmethod
     def load(cls, file):
         """Initialize a classifier from a serialized object"""
