@@ -18,21 +18,37 @@ class FeatureDropper(BaseEstimator, TransformerMixin):
     def __init__(self, column_names=None):
         """Initializes the class with the columns to drop from the dataframe"""
         
-        if column_names == None:
-            self.column_names = []
-        else:
-            self.column_names = column_names
+        self.column_names = column_names
 
     def  fit(self, X, y=None):
         return self
-
 
     def transform(self, X):
         """Drops the columns passed during instance init"""
 
         X = X.copy()
         for column_name in self.column_names:
-            X.drop(column_name)
+            X.drop(columns=column_name, inplace=True)
+
+        return X
+
+
+class FeatureSelector(BaseEstimator, TransformerMixin):
+    """Selects columns from a dataframe"""
+
+    def __init__(self, column_names=None):
+        """Initializes the class with the columns to select from the dataframe"""
+        
+        self.column_names = column_names
+
+    def  fit(self, X, y=None):
+        return self
+
+    def transform(self, X):
+        """Drops the columns passed during instance init"""
+
+        X = X.copy()
+        X = X[self.column_names]
 
         return X
 
@@ -43,10 +59,8 @@ class StandardScaler(BaseEstimator, TransformerMixin):
     def __init__(self, column_names):
         """Inititalizes the class with the columns to scale"""
 
-        if column_names == None:
-            self.column_names = []
-        else:
-            self.column_names = column_names
+        # Columns to scale
+        self.column_names = column_names
 
         # Create dictionary of scalers
         self.scalers = {column_name: pp.StandardScaler() for column_name in self.column_names}
@@ -56,7 +70,7 @@ class StandardScaler(BaseEstimator, TransformerMixin):
 
         X = X.copy()
         for column_name, scaler in self.scalers.items():
-            scaler.fit(X[column_name])    
+            scaler.fit(X[[column_name]])    
 
         return self
 
@@ -64,32 +78,35 @@ class StandardScaler(BaseEstimator, TransformerMixin):
         """Applies the transformation fitted to new data"""
 
         X = X.copy()
-        for column_name, scaler in self.scalers:
-            X[column_name] = scaler.transform(X[column_name])
+        for column_name, scaler in self.scalers.items():
+            X[column_name] = scaler.transform(X[[column_name]])
 
         return X
 
     
-    class CreateDateTimeFeatures(BaseEstimator, TransformerMixin):
-        """Create date time features from datetime column"""
+class CreateDateTimeFeatures(BaseEstimator, TransformerMixin):
+    """Create date time features from datetime column"""
 
-        def __init__(self, datetime_column_name):
-            """Receives the origin datetime and creates the features passed"""
+    # Class attribute
+    created_features = ["day_of_week", "time_of_day", "month", "day_of_month"]
 
-            self.datetime_column_name = datetime_column_name
+    def __init__(self, datetime_column_name):
+        """Receives the origin datetime and creates the features passed"""
 
-        def fit(self, X, y=None):
-            return self
+        self.datetime_column_name = datetime_column_name
 
-        def transform(self, X):
-            """Extract datetime info from datetime object"""
-            
-            X = X.copy()
-            datetime = X[self.datetime_column_name].dt
-            
-            X["day_of_week"] = datetime.day_of_week
-            X["time_of_day"] = datetime.hour + datetime.minute / 60
-            X["month"] = datetime.month
-            X["day_of_month"] = datetime.day
+    def fit(self, X, y=None):
+        return self
 
-            return X
+    def transform(self, X):
+        """Extract datetime info from datetime object"""
+        
+        X = X.copy()
+        datetime = X[self.datetime_column_name].dt
+        
+        X["day_of_week"] = datetime.dayofweek
+        X["time_of_day"] = datetime.hour + datetime.minute / 60
+        X["month"] = datetime.month
+        X["day_of_month"] = datetime.day
+
+        return X

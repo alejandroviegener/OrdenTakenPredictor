@@ -1,6 +1,18 @@
 
 from prediction_model import preprocessing as pp
 import pickle as pkl
+from sklearn import pipeline
+from sklearn import linear_model
+from prediction_model import config
+
+# Globals 
+SELECTED_FEATURES = ["to_user_distance", "to_user_elevation", "total_earning", "day_of_week", "time_of_day", "day_of_month"]
+SCALED_FEATURES = ["to_user_distance", "to_user_elevation", "total_earning", "day_of_week", "time_of_day", "day_of_month"]
+DATETIME_FEATURE = "created_at"
+RANDOM_SEED = config.RANDOM_SEED
+MAX_ITERS = 100
+CLASS_WEIGTH = "balanced"
+
 
 class LogisticRegressionClassifier():
     """Defines a logistic regression classifier"""
@@ -8,17 +20,26 @@ class LogisticRegressionClassifier():
     def __init__(self):
         """Constructs a pipeline for logistic regression classifier"""
         
-        pass
+        self.estimators = [ ("date_time_features_creator", pp.CreateDateTimeFeatures(DATETIME_FEATURE)),
+                            ("feature_selector", pp.FeatureSelector(SELECTED_FEATURES)),
+                            ("standard_scaler", pp.StandardScaler(SCALED_FEATURES)),
+                            ("predictor", linear_model.LogisticRegression(  random_state=RANDOM_SEED, 
+                                                                            max_iter=MAX_ITERS, 
+                                                                            class_weight=CLASS_WEIGTH))
+                    ]
+        self.pipe = pipeline.Pipeline(self.estimators)
 
     def fit(self, X, y):
         """Fit the pipeline to the data"""
-        
-        pass
+        self.pipe.fit(X, y)
     
-    def predict(self, X, prob=False):
-        """Predict tthe new seen data"""
+    def predict(self, X, return_proba=False):
+        """Predict over new seen data"""
         
-        pass
+        if return_proba:
+            return self.pipe.predict_proba(X)
+        
+        return self.pipe.predict(X)
     
     @classmethod
     def load(cls, file):
@@ -26,12 +47,11 @@ class LogisticRegressionClassifier():
         
         with open(file, 'rb') as handle:
             obj = pkl.load(handle)
-            
+
         return obj
 
     def save(self, file):
         """Serialize the pipeline"""
 
         with open(file, 'wb') as handle:
-            pkl.dump(self, handle)
-        
+            pkl.dump(self, handle)    

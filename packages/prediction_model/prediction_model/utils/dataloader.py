@@ -6,7 +6,12 @@ from sklearn import model_selection
 RANDOM_SEED = config.RANDOM_SEED 
 ORDERS_DATASET_FILE_PATH = config.DATASET_FILE_PATH
 
+DATE_TIME_COLUMN = "created_at"
+
 class OrdersDataloader():
+
+    # Globals
+    date_time_column = DATE_TIME_COLUMN
 
     def __init__(self):
         """Initialized a dataframe by reading the csv file"""
@@ -15,7 +20,7 @@ class OrdersDataloader():
         df = pd.read_csv(ORDERS_DATASET_FILE_PATH)
         
         # Convert created_at column to date time object
-        df["created_at"] = pd.to_datetime(df["created_at"])   
+        df[DATE_TIME_COLUMN] = pd.to_datetime(df[DATE_TIME_COLUMN])   
 
         # Filter outliers detected in research phase
         filter_elevation = (df["to_user_elevation"] < 600) 
@@ -34,7 +39,7 @@ class OrdersDataloader():
         # Return train and test sets
         X = self.data.copy()
         labels = X["taken"]
-        features = X.drop("taken")
+        features = X.drop(columns=["taken"])
         split = model_selection.train_test_split(   features, 
                                                     labels, 
                                                     test_size = test_size, 
