@@ -3,6 +3,8 @@
 import pathlib
 import prediction_model
 
+VERSION = "0.1.0"
+
 # General
 RANDOM_SEED = 314
 TEST_SIZE = 0.25
@@ -16,3 +18,4 @@ DATASET_DIR = PACKAGE_ROOT / "datasets"
 DATASET_FILE = "orders.csv"
 DATASET_FILE_PATH = DATASET_DIR / DATASET_FILE
 TESTS_DIR = PACKAGE_ROOT.parent / "tests"
+
