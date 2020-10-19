@@ -46,7 +46,7 @@ def request_prediction(features_list: List[Features]):
     X = utils.features_list_to_dataframe(features_list)
 
     # Call prediction model
-    pred = model.predict(X, return_proba=True)
+    pred = model.predict(X, return_proba=False)
 
     # Insert predictions into database
         # to-do
