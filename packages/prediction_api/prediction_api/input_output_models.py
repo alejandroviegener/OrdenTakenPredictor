@@ -10,10 +10,12 @@ class Features(BaseModel):
     total_earning: float = Field(..., gt=0, title="Courier earning by delivering the order")
     created_at: str = Field(..., title="Timestamp of order creation (Datetime compatible string)")
 
+    def to_dict(self):
+        return dict(self)
+
+
 class Predictions(BaseModel):
     predictions: List[float] = Field(..., title="Predictions list")
     model_version: str = Field(..., title="model version number")
+    api_version: str = Field(..., title="api version number")
 
-    def __init__(self, predictions: List[float], model_version):
-        self.predictions = predictions
-        self.model_version = model_version

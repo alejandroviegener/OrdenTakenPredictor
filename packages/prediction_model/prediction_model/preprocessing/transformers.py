@@ -10,6 +10,7 @@ Example:
 
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn import preprocessing as pp
+import pandas as pd
 
 
 class FeatureDropper(BaseEstimator, TransformerMixin):
@@ -102,6 +103,7 @@ class CreateDateTimeFeatures(BaseEstimator, TransformerMixin):
         """Extract datetime info from datetime object"""
         
         X = X.copy()
+        X[self.datetime_column_name] = pd.to_datetime(X[self.datetime_column_name])
         datetime = X[self.datetime_column_name].dt
         
         X["day_of_week"] = datetime.dayofweek

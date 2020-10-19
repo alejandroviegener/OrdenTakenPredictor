@@ -46,10 +46,12 @@ def request_prediction(features_list: List[Features]):
     X = utils.features_list_to_dataframe(features_list)
 
     # Call prediction model
-    predictions = model.predict(X)
+    pred = model.predict(X, return_proba=True)
 
     # Insert predictions into database
         # to-do
 
     # Return result
-    return Predictions(predictions, model_config.VERSION)
+    return Predictions( predictions=list(pred), 
+                        model_version=model_config.VERSION,
+                        api_version=api_config.VERSION)

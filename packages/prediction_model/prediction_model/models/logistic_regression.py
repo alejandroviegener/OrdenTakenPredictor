@@ -5,6 +5,7 @@ from sklearn import pipeline
 from sklearn import linear_model
 from sklearn import metrics 
 from prediction_model import config
+import numpy as np
 
 # Globals 
 SELECTED_FEATURES = ["to_user_distance", "to_user_elevation", "total_earning", "day_of_week", "time_of_day", "day_of_month"]
@@ -38,7 +39,7 @@ class LogisticRegressionClassifier():
         """Predict over new seen data"""
         
         if return_proba:
-            return self.pipe.predict_proba(X)
+            return np.round(self.pipe.predict_proba(X)[:, 1], decimals=4)
         
         return self.pipe.predict(X)
     

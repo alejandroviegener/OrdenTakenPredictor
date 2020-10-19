@@ -12,14 +12,14 @@ def features_list_to_dataframe(features_list: List[Features]):
         return None
 
     # Get the keys of the freatures
-    keys = features_list[0].keys()
+    keys = features_list[0].to_dict().keys()
 
     # Create a dictionary with those keys and a list for each
     features_dict = { key: [] for key in keys} 
     
     # Fill the lists
     for features in features_list:
-        for key, value in features.items():
+        for key, value in features.to_dict().items():
             features_dict[key].append(value)
     
     # Create dataframe with resulting features dict
