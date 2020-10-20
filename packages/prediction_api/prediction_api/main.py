@@ -1,3 +1,14 @@
+"""This module defines the main app and its requests
+
+Requests are:
+    - GET version
+    - PUT prediction(features)
+
+To persist the predictions requested, the handler predictions_persistance_handler must 
+be set in the config module of this package.
+"""
+
+
 from typing import Optional, List
 
 from fastapi import FastAPI
@@ -14,12 +25,20 @@ from prediction_api import utils
 from prediction_api import config as api_config
 
 
-def persist_predictions(features_list, predictions):
-    """Persist only if handler defined """
+def persist_predictions(features_list: List[Features], predictions: List[float]):
+    """Persist the predictions according to the persistance handler
+    
+    Args: 
+        features_list: an iterable of Features
+        predictions: an iterable of floats
+    """
 
+    # Persist only of handler has been set
     if api_config.predictions_persistance_handler is None:
         return
 
+    # Convert the data to a list of documents (dicts)
+    # Add versions and timestamp 
     documents = []
     for features, prediction in zip(features_list, predictions):
         document = dict(features)
@@ -30,10 +49,11 @@ def persist_predictions(features_list, predictions):
 
         documents.append(document)
         
+    # Persist using the set handler by the user
     api_config.predictions_persistance_handler(documents)
 
 
-# Api metadata, shown in documentation
+# Api metadata, will be reflected in the api autigenerated documentation
 tags_metadata = [
     {
         "name": "info",
@@ -54,6 +74,7 @@ app = FastAPI(  title="Order Taken Prediction",
 # Load serialized model
 model = models.LogisticRegressionClassifier.load(model_config.TRAINED_MODEL_FILE_PATH)
 
+################# Define endpoints and methods ####################
 
 @app.get("/version", tags=["info"])
 def read_version():

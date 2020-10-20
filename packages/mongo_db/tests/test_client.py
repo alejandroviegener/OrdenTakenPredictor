@@ -1,9 +1,11 @@
+"""Tests the mongo_db module"""
+
 import pytest 
 import mongo_db
 
 
-def test_server_connection():
-    """Test exception raise if server not connected"""
+def test_server_connection_error():
+    """Test exception raise if server connection error"""
 
     with pytest.raises(Exception):
         mongo_db.MongoDBClient( host="0.0.0.0", 

@@ -1,3 +1,9 @@
+"""Main application file
+
+ - Creates a mongo db client 
+ - Defines a predictions persistence handler with the mongo db client and configures the prediction_api handler
+ - Launches the prediction_api app using uvicorn 
+"""
 
 import uvicorn
 from prediction_api import config as api_config

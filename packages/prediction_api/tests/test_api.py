@@ -1,3 +1,5 @@
+"""Test the predictions api package"""
+
 from fastapi.testclient import TestClient
 from prediction_api.main import app
 from prediction_api import config as api_config
@@ -5,11 +7,11 @@ from prediction_model import config as model_config
 import pytest 
 
 
-# Define a test client 
-client = TestClient(app)
+@pytest.fixture(scope="module")
+def client():
+    return TestClient(app)
 
-
-def test_read_version():
+def test_read_version(client):
     """Test version read"""
 
     response = client.get("/version")
@@ -17,7 +19,7 @@ def test_read_version():
     assert response.json() == { 'api_version': api_config.VERSION, 
                                 'model_version': model_config.VERSION}
 
-def test_request_predictions_valid_features():
+def test_request_predictions_valid_features(client):
     """Test request predictions with valid features"""
 
     # With valid features
@@ -53,7 +55,7 @@ def test_request_predictions_valid_features():
                          [  {"to_user_distance": 1, "to_user_elevation": 300.4, "total_earning": -10.5, "created_at": "2017-09-07T20:02:17Z"},
                             {"to_user_distance": -1.2, "to_user_elevation": 300.4, "total_earning": 10.5, "created_at": "2017-09-07T20:02:17Z"},
                             {"to_user_distance": 0.5, "to_user_elevation": -100, "total_earning": 0, "created_at": "2017-09-07T20:02:17Z"},])
-def test_request_predictions_invalid_features(features):
+def test_request_predictions_invalid_features(client, features):
     """Test request predictions with invalid features"""
 
     # With invalid data

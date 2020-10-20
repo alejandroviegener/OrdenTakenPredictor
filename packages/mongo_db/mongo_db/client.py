@@ -1,12 +1,38 @@
+"""Implements a mongo database client, that enables to connect and write to ir
+
+Typical usage:
+
+client = MongoDBClient( database_name="test_db",
+                        collection_name="test_collection",
+                        host="0.0.0.0",
+                        port=27017)
+test_document = {"a": 12, "b": 43}
+client.insert_document(test_document)
+
+"""
+
 import pymongo 
 
+# Connection tiemout
 SERVER_CONNECTION_TIMEOUT_MS = 2000
 
 class MongoDBClient:
     """"Client abstraction for mongo db"""
 
     def __init__(self, database_name, collection_name, host="0.0.0.0", port=27017, username=None, password=None):
-        """Initialize database client"""
+        """Initialize database client
+        
+        Args:
+            database_name: name of the database to connect to. It is created if no exists
+            collection_name: name of the collection in the db
+            host: string indicating the host
+            port: port number
+            username: default is None
+            password: default is None
+
+        Raises:
+            Exception if server connection timeout
+        """
         
         self.host = host
         self.port = port

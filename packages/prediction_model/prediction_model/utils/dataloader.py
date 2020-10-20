@@ -1,14 +1,22 @@
+"""Utility class to load the dataset"""
 
 import pandas as pd
 from prediction_model import config
 from sklearn import model_selection
 
+# Globals
 RANDOM_SEED = config.RANDOM_SEED 
 ORDERS_DATASET_FILE_PATH = config.DATASET_FILE_PATH
-
 DATE_TIME_COLUMN = "created_at"
 
+
 class OrdersDataloader():
+    """Loads the orders dataset.
+    
+    Typical usage:
+        loader = OrdersDataloader()
+        X_train, X_test, y_train, y_test = loader.get_train_test_split(0.25)
+    """
 
     # Globals
     date_time_column = DATE_TIME_COLUMN
