@@ -1,12 +1,12 @@
 from setuptools import setup
 
-setup(name='prediction_model',
+setup(name='mongo_db',
       version='0.1.0',
-      description='Package for order-taken prediction',
+      description='Package that implements a mongo database client',
       url='https://github.com/alejandroviegener/OrdenTakenPredictor/',
       author='Alejandro Viegener',
       author_email='alejandro.viegener@gmail.com',
       license='MIT',
-      packages=['prediction_model'],
-      install_requires=['sklearn', 'pandas', 'numpy'],
+      packages=['mongo_db'],
+      install_requires=['pymongo'],
       zip_safe=False)

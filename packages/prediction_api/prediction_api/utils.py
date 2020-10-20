@@ -1,6 +1,6 @@
 """Utility functions"""
 
-from input_output_models import Features
+from prediction_api.input_output_models import Features
 from typing import List
 import pandas as pd
 

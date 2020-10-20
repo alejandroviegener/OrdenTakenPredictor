@@ -22,6 +22,8 @@ def test_request_predictions_valid_features():
 
     # With valid features
     body_json = [   { 
+                        "order_id": 0,
+                        "store_id": 0,
                         "to_user_distance": 100,
                         "to_user_elevation": 500,
                         "total_earning": 30000,
@@ -29,6 +31,8 @@ def test_request_predictions_valid_features():
                     },
 
                     { 
+                        "order_id": 0,
+                        "store_id": 0,
                         "to_user_distance": 1,
                         "to_user_elevation": 100,
                         "total_earning": 50000,
@@ -46,9 +50,9 @@ def test_request_predictions_valid_features():
     
 
 @pytest.mark.parametrize("features",
-                         [  {"to_user_distance": 0, "to_user_elevation": 500, "total_earning": 30000, "created_at": "2017-09-07T20:02:17Z"},
-                            {"to_user_distance": 100, "to_user_elevation": 0, "total_earning": 30000, "created_at": "2017-09-07T20:02:17Z"},
-                            {"to_user_distance": 100, "to_user_elevation": 500, "total_earning": 0, "created_at": "2017-09-07T20:02:17Z"},])
+                         [  {"to_user_distance": 1, "to_user_elevation": 300.4, "total_earning": -10.5, "created_at": "2017-09-07T20:02:17Z"},
+                            {"to_user_distance": -1.2, "to_user_elevation": 300.4, "total_earning": 10.5, "created_at": "2017-09-07T20:02:17Z"},
+                            {"to_user_distance": 0.5, "to_user_elevation": -100, "total_earning": 0, "created_at": "2017-09-07T20:02:17Z"},])
 def test_request_predictions_invalid_features(features):
     """Test request predictions with invalid features"""
 

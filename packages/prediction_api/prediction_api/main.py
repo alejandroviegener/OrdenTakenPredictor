@@ -7,9 +7,30 @@ from prediction_model import config as model_config
 from prediction_model import models
 import pandas as pd
 
-from input_output_models import Features, Predictions
-import utils 
-import config as api_config
+from datetime import datetime
+
+from prediction_api.input_output_models import Features, Predictions
+from prediction_api import utils 
+from prediction_api import config as api_config
+
+
+def persist_predictions(features_list, predictions):
+    """Persist only if handler defined """
+
+    if api_config.predictions_persistance_handler is None:
+        return
+
+    documents = []
+    for features, prediction in zip(features_list, predictions):
+        document = dict(features)
+        document["prediction"] = float(prediction) 
+        document["model_version"] = model_config.VERSION
+        document["api_version"] = api_config.VERSION
+        document["timestamp"] = str(datetime.now())
+
+        documents.append(document)
+        
+    api_config.predictions_persistance_handler(documents)
 
 
 # Api metadata, shown in documentation
@@ -46,12 +67,12 @@ def request_prediction(features_list: List[Features]):
     X = utils.features_list_to_dataframe(features_list)
 
     # Call prediction model
-    pred = model.predict(X, return_proba=False)
+    predictions = model.predict(X, return_proba=False)
 
     # Insert predictions into database
-        # to-do
+    persist_predictions(features_list, predictions)
 
     # Return result
-    return Predictions( predictions=list(pred), 
+    return Predictions( predictions=list(predictions), 
                         model_version=model_config.VERSION,
                         api_version=api_config.VERSION)

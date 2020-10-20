@@ -1,0 +1,13 @@
+version: "3.8"
+services:
+    api:
+        build: .
+        container_name: prediction_api
+        ports: 
+            - "8000:8000"
+
+    mongo:
+        image: mongo
+        container_name: mongo_db
+        ports: 
+            - "27017:27017"

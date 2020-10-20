@@ -1,0 +1,4 @@
+# Requierements file
+uvicorn 
+requests
+pytest
