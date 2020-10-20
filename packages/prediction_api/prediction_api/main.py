@@ -24,6 +24,12 @@ from prediction_api.input_output_models import Features, Predictions
 from prediction_api import utils 
 from prediction_api import config as api_config
 
+import logging
+
+
+# Logger
+logger = logging.getLogger(api_config.LOGGER_NAME + ".main")
+
 
 def persist_predictions(features_list: List[Features], predictions: List[float]):
     """Persist the predictions according to the persistance handler
@@ -51,6 +57,7 @@ def persist_predictions(features_list: List[Features], predictions: List[float])
         
     # Persist using the set handler by the user
     api_config.predictions_persistance_handler(documents)
+    logger.info("Persisted predictions OK")
 
 
 # Api metadata, will be reflected in the api autigenerated documentation
@@ -78,6 +85,8 @@ model = models.LogisticRegressionClassifier.load(model_config.TRAINED_MODEL_FILE
 
 @app.get("/version", tags=["info"])
 def read_version():
+
+    logger.info("Get version")
     return {"api_version": api_config.VERSION,
             "model_version": model_config.VERSION}
 
@@ -89,6 +98,7 @@ def request_prediction(features_list: List[Features]):
 
     # Call prediction model
     predictions = model.predict(X, return_proba=False)
+    logger.info("Predictions generated OK")
 
     # Insert predictions into database
     persist_predictions(features_list, predictions)

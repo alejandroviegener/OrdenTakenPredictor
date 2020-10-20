@@ -5,7 +5,6 @@ from typing import List
 from pydantic import BaseModel, Field
 import datetime
 
-
 # Define data schemas
 class Features(BaseModel):
     """Defines the data model for the input features in the prediction model

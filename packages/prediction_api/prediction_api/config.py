@@ -1,5 +1,18 @@
 """Some global configurations for the prediction api package"""
 
+import prediction_api
+import logging
+import colorlog
+
+# Define the root logger
+LOGGER_NAME = "prediction_api"
+logger =  logging.getLogger(LOGGER_NAME)
+logger.setLevel(logging.INFO)
+stream_handler = logging.StreamHandler()
+formatter = colorlog.ColoredFormatter('%(log_color)s%(levelname)s%(reset)s: <%(name)s> %(bold)s%(message)s')
+stream_handler.setFormatter(formatter)
+logger.addHandler(stream_handler)
+
 # Version 
 VERSION = "0.1.0"
 
