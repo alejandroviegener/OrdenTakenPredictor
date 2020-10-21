@@ -91,7 +91,7 @@ To run the system tests:
 2) Execute the following command in a new terminal window: 
 
 ```bash
-docker exec -it rapi-prediction-api ./test.sh
+docker exec -it rappi-prediction-api ./test.sh
 ```
 
 ## Application Design Basics <a name="design"></a>
