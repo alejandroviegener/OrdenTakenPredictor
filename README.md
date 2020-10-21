@@ -51,7 +51,7 @@ To confirm the creation of the images, execute:
 docker image ls
 ```
 
-A docker image amed **rappi-prediction-api** must be listed.
+A docker image named **rappi-prediction-api** must be listed.
 
 ## Usage <a name="usage"></a>
 
