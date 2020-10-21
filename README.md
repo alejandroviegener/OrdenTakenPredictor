@@ -1,6 +1,6 @@
 # Order Taken Predictor
 
-System that exposes a classification model in an API, to predict if a courier will take an optional order
+System that exposes a classification model in an API, to predict if a courier will take an order
 
 
 # Table of Contents
@@ -31,7 +31,7 @@ git clone git@github.com:alejandroviegener/OrdenTakenPredictor.git
 
 From now on this directory will be refered to as $REPO_BASE_DIR.
 
-The application is dockerized, to build the Docker image follow these steps:
+The application is dockerized, to build the Docker images follow these steps:
 
 1) Change to the repo base directory:
 
@@ -51,7 +51,7 @@ The script will create two docker images. To confirm the creation of the images,
 docker image ls
 ```
 
-A docker image named mongo and another named rappi-prediction-api must be listed.
+A docker image named **mongo** and another named **rappi-prediction-api** must be listed.
 
 ## Usage <a name="usage"></a>
 
@@ -67,7 +67,7 @@ cd $REPO_BASE_DIR
 docker-compose up
 ```
 
-Or alternaively run in detached mode:
+Or alternatively, run in detached mode:
 
 ```bash
 docker-compose up -d
@@ -77,7 +77,7 @@ docker-compose up -d
 
 Open your browser and go to the url http://127.0.0.1:8000/docs#/
 
-Two endpoints where implemented:
+Two endpoints are implemented:
 
 - version: gets the version of the system
 - prediction: requests prediction given the input features
@@ -98,9 +98,9 @@ docker exec -it rapi-prediction-api ./test.sh
 
 Three python packages where implemented:
 
-1) **mongo_db**: defines a simple client class for connection to the server and document insertion.
-2) **predicion_api**: implementes the API of the system, **FastAPI** was used
-3) **prediction_model**: Predicton model implemented as a sklearn pipeline. 
+1) **mongo_db**: defines a simple client class for connection to the databse server and for document insertion.
+2) **predicion_api**: implementes the API of the system, **FastAPI** was used.
+3) **prediction_model**: Predicton model implemented as a **sklearn** pipeline. 
 
 The system was dockerized in two containers:
 
