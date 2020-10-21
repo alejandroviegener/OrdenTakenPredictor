@@ -2,6 +2,19 @@
 
 import pathlib
 import prediction_model
+import logging
+import colorlog
+
+# Define the root logger
+LOGGER_NAME = "prediction_model"
+logger =  logging.getLogger(LOGGER_NAME)
+logger.setLevel(logging.INFO)
+
+# Set log handler and formatter
+stream_handler = logging.StreamHandler()
+formatter = colorlog.ColoredFormatter('%(log_color)s%(levelname)s%(reset)s: <%(name)s> %(bold)s%(message)s')
+stream_handler.setFormatter(formatter)
+logger.addHandler(stream_handler)
 
 VERSION = "0.1.0"
 

@@ -16,7 +16,7 @@ logger = logging.getLogger(api_config.LOGGER_NAME + ".start_api" )
 # Predictions persistance implemented as a Mongo database
 db_client = None
 try:
-    db_client = mongo_db.MongoDBClient( host="localhost", 
+    db_client = mongo_db.MongoDBClient( host="mongo", 
                                         port=27017, 
                                         database_name="predictions_database", 
                                         collection_name="predictions_collection")
@@ -36,4 +36,3 @@ api_config.predictions_persistance_handler = persistance_handler
 # Start application
 if __name__ == "__main__":
     uvicorn.run("prediction_api.main:app", host="0.0.0.0", port=8000, log_level="info", reload=True)
-    

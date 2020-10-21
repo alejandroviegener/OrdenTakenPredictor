@@ -11,7 +11,11 @@ Example:
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn import preprocessing as pp
 import pandas as pd
+from prediction_model import config
+import logging
 
+# Define module logger
+logger = logging.getLogger(config.LOGGER_NAME + ".transformers")
 
 class FeatureDropper(BaseEstimator, TransformerMixin):
     """Drops columns from a dataframe"""
@@ -26,6 +30,8 @@ class FeatureDropper(BaseEstimator, TransformerMixin):
 
     def transform(self, X):
         """Drops the columns passed during instance init"""
+
+        logger.info("Dropping unnecesarry features")
 
         X = X.copy()
         for column_name in self.column_names:
@@ -47,6 +53,8 @@ class FeatureSelector(BaseEstimator, TransformerMixin):
 
     def transform(self, X):
         """Drops the columns passed during instance init"""
+
+        logger.info("Selecting desired features")
 
         X = X.copy()
         X = X[self.column_names]
@@ -78,6 +86,8 @@ class StandardScaler(BaseEstimator, TransformerMixin):
     def transform(self, X):
         """Applies the transformation fitted to new data"""
 
+        logger.info("Standard scaling features")
+
         X = X.copy()
         for column_name, scaler in self.scalers.items():
             X[column_name] = scaler.transform(X[[column_name]])
@@ -102,6 +112,8 @@ class CreateDateTimeFeatures(BaseEstimator, TransformerMixin):
     def transform(self, X):
         """Extract datetime info from datetime object"""
         
+        logger.info("Creating date time features")
+
         X = X.copy()
         X[self.datetime_column_name] = pd.to_datetime(X[self.datetime_column_name])
         datetime = X[self.datetime_column_name].dt

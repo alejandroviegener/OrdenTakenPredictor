@@ -8,6 +8,8 @@ import colorlog
 LOGGER_NAME = "prediction_api"
 logger =  logging.getLogger(LOGGER_NAME)
 logger.setLevel(logging.INFO)
+
+# Set logger handler and formatter
 stream_handler = logging.StreamHandler()
 formatter = colorlog.ColoredFormatter('%(log_color)s%(levelname)s%(reset)s: <%(name)s> %(bold)s%(message)s')
 stream_handler.setFormatter(formatter)

@@ -6,7 +6,7 @@ WORKDIR /opt/app
 
 # Copy prediction model and api
 COPY ./packages . 
-COPY start_api.sh start_api.py requirements.txt ./
+COPY start_api.sh start_api.py requirements.txt test.sh ./
 
 # Install python packages
 RUN pip install -e prediction_model && \

@@ -8,5 +8,5 @@ setup(name='prediction_api',
       author_email='alejandro.viegener@gmail.com',
       license='MIT',
       packages=['prediction_api'],
-      install_requires=['sklearn', 'pandas', 'numpy', 'fastapi'],
+      install_requires=['sklearn', 'pandas', 'numpy', 'fastapi', 'colorlog'],
       zip_safe=False)

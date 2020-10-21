@@ -27,6 +27,8 @@ from sklearn import linear_model
 from sklearn import metrics 
 from prediction_model import config
 import numpy as np
+from prediction_model import config
+import logging
 
 # Globals 
 SELECTED_FEATURES = ["to_user_distance", "to_user_elevation", "total_earning", "day_of_week", "time_of_day", "day_of_month"]
@@ -35,6 +37,9 @@ DATETIME_FEATURE = "created_at"
 RANDOM_SEED = config.RANDOM_SEED
 MAX_ITERS = 100
 CLASS_WEIGTH = "balanced"
+
+# Define module logger
+logger = logging.getLogger(config.LOGGER_NAME + ".logistic_regression")
 
 
 class LogisticRegressionClassifier():
@@ -69,6 +74,8 @@ class LogisticRegressionClassifier():
         Set return_proba to True to return the 1 probability 
         """
         
+        logger.info("Predictions pipeline update")
+
         if return_proba:
             return np.round(self.pipe.predict_proba(X)[:, 1], decimals=4)
         
