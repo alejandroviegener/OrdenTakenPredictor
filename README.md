@@ -45,13 +45,13 @@ cd $REPO_BASE_DIR
 docker-compose build
 ```
 
-The script will create two docker images. To confirm the creation of the images, execute:
+To confirm the creation of the images, execute:
 
 ```bash
 docker image ls
 ```
 
-A docker image named **mongo** and another named **rappi-prediction-api** must be listed.
+A docker image amed **rappi-prediction-api** must be listed.
 
 ## Usage <a name="usage"></a>
 
