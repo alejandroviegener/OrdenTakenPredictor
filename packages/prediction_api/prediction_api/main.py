@@ -79,6 +79,7 @@ app = FastAPI(  title="Order Taken Prediction",
                 openapi_tags=tags_metadata)
 
 # Load serialized model
+#model = models.LogisticRegressionClassifier.load(model_config.TRAINED_MODEL_FILE_PATH)
 model = models.LogisticRegressionClassifier.load(model_config.TRAINED_MODEL_FILE_PATH)
 
 ################# Define endpoints and methods ####################

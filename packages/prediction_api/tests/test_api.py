@@ -26,9 +26,9 @@ def test_request_predictions_valid_features(client):
     body_json = [   { 
                         "order_id": 0,
                         "store_id": 0,
-                        "to_user_distance": 100,
+                        "to_user_distance": 5,
                         "to_user_elevation": 500,
-                        "total_earning": 30000,
+                        "total_earning": 1000,
                         "created_at": "2017-09-07T20:02:17Z"
                     },
 

@@ -99,11 +99,13 @@ docker exec -it rappi-prediction-api ./test.sh
 Three python packages where implemented:
 
 1) **mongo_db**: defines a simple client class for connection to the databse server and for document insertion.
-2) **predicion_api**: implementes the API of the system, **FastAPI** was used.
-3) **prediction_model**: Predicton model implemented as a **sklearn** pipeline. 
+2) **predicion_api**: implements the API of the system, **FastAPI** was used.
+3) **prediction_model**: Predicton model implemented as a **sklearn** pipeline. The final predictor in the pipeline is a RandomForestClassifier. The data exploratory analysis stage, feature selection, model selection and tuning can be found in the research directory.
 
 The system was dockerized in two containers:
 
 1) One that contains the prediction model and the API, and
 2) the databse container
+
+
 

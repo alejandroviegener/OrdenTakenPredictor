@@ -14,7 +14,8 @@ def fit_and_save():
     X_train, _, y_train, _ = data
 
     # Fit the model
-    model = models.LogisticRegressionClassifier()
+    #model = models.LogisticRegressionClassifier()
+    model = models.RandomForestClassifier()
     model.fit(X_train, y_train)
 
     # Save the model
